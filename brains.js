@@ -7,56 +7,53 @@
     let yourGuesses = []
     let computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
 
-    
-
-    let updateRemaining = function() {
-        document.querySelector('#remaining').innerHTML = `Guesses left: ${remaining}`;
-      };
-
-    let updateYourGuesses = function (event) {
-        userGuess = Document.onkeyup
-        document.querySelector('#guesses').innerHTML = + userGuess;  
-        
-        
-        }
-
-        const newGame = function() {
-            remaining = 9;
-            yourGuesses = [];
-          
-            updateComputerGuess();
-            updateRemaining();
-            updateyourGuesses();
-          }
-          
-        
+   
 
     let updateComputerGuess = function() {
-            this.computerGuess = this.computerChoices[Math.floor(Math.random() * this.computerChoices.length)];
-          };
+        computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+        console.log(`computer guess: ${computerGuess}`);
+      };
 
 
-          document.onkeyup = function(event) {
+    let updateRemaining = function() {
+        document.querySelector('#remaining').innerHTML = ` ${remaining}`;
+      };
+
+    
+    const newGame = function() {
+            //Reset game stats
+            remaining = 9;
+            yourGuesses = [];
+            userGuess = " ";
+            //computer generates a new guess
+            updateComputerGuess();
+            updateRemaining();
+            document.querySelector('#guesses').innerHTML = ` ${userGuess}`; 
+            };
+   
+    //Game starts on key press
+    document.onkeyup = function(event) {
+        var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
+        document.querySelector('#guesses').innerHTML = `${userGuess}`;  
+        console.log(`User guess: ${userGuess}`);
+        yourGuesses.push(userGuess);
+        if (userGuess === computerGuess) {
+            wins++;
+            document.querySelector('#wins').innerHTML = ` ${wins}`;
+            alert("You are psychic!");
+            newGame();
+        } else {
             remaining--;
-          let userGuess = String.fromCharCode(event.keyCode).toLowerCase();
-        
-          yourGuesses.push(userGuess);
-          updateRemaining();
-          updateYourGuesses();
-        
-                if (remaining > 0){
-                    if (userGuess == computerGuess){
-                        wins++;
-                        document.querySelector('#wins').innerHTML = `Wins:  ${wins}`;
-                        alert("You are psychic!");
-                        newGame();
-                    }
-                }else if(remaining == 0){
-                    losses++;
-                    document.querySelector('#losses').innerHTML = `Losses:  ${losses}`;
-                    alert("Sorry, you lose"); 
-                    newGame();
-                }
+            if (remaining === 0) {
+                losses++;
+                document.querySelector('#losses').innerHTML = ` ${losses}`;
+                alert("Sorry, you lose"); 
+                newGame();
+            }
+        }
+        updateRemaining();
         };
 
+        //Log the first computer guess
+        console.log(`computer guess: ${computerGuess}`);
         
